@@ -45,7 +45,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-venv
-          source scripts/setup-ubuntu.sh && install_velox_deps
+          source scripts/setup-ubuntu.sh && install_apt_deps
 
       - name: Clear CCache Statistics
         run: |
