@@ -1,0 +1,72 @@
+name: Test ARC Runner CLP
+
+on:
+  push:
+    branches:
+      - test-arc-runner-clp
+  workflow_dispatch:
+
+jobs:
+  test-runner-clp:
+    runs-on: arc-velox-runners
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print runner information
+        run: |
+          echo "=========================================="
+          echo "Testing ARC runner on CLP connector branch"
+          echo "=========================================="
+          echo "Runner name: $RUNNER_NAME"
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner architecture: $RUNNER_ARCH"
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch: $GITHUB_REF"
+          echo "Base branch: presto-0.293-clp-connector"
+          echo "=========================================="
+
+      - name: System information
+        run: |
+          echo "Hostname: $(hostname)"
+          echo "Kernel: $(uname -r)"
+          echo "OS: $(cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2)"
+          echo "CPU: $(nproc) cores"
+          echo "Memory: $(free -h | grep Mem | awk '{print $2}')"
+          echo "Disk space: $(df -h / | tail -1 | awk '{print $4}' | sed 's/G/ GB/')"
+
+      - name: Git information
+        run: |
+          echo "Current branch: $(git branch --show-current)"
+          echo "Latest commit: $(git log -1 --oneline)"
+          echo "Base commit (presto-0.293-clp-connector): $(git rev-parse origin/presto-0.293-clp-connector | cut -c1-8)"
+
+      - name: Check repository structure
+        run: |
+          echo "Repository structure:"
+          ls -la
+          echo ""
+          echo "Checking for key directories..."
+          test -d velox && echo "✓ velox/ directory exists" || echo "✗ velox/ directory missing"
+          test -f CMakeLists.txt && echo "✓ CMakeLists.txt exists" || echo "✗ CMakeLists.txt missing"
+
+      - name: Test basic build tools
+        run: |
+          echo "Checking available tools..."
+          which git && echo "✓ git: $(git --version | head -1)"
+          which make && echo "✓ make: $(make --version | head -1)" || echo "✗ make not available"
+          which gcc && echo "✓ gcc: $(gcc --version | head -1)" || echo "✗ gcc not available"
+          which g++ && echo "✓ g++: $(g++ --version | head -1)" || echo "✗ g++ not available"
+          which cmake && echo "✓ cmake: $(cmake --version | head -1)" || echo "✗ cmake not available"
+          which python3 && echo "✓ python3: $(python3 --version)" || echo "✗ python3 not available"
+
+      - name: Success message
+        run: |
+          echo "=========================================="
+          echo "✓ ARC runner test completed successfully!"
+          echo "Branch: presto-0.293-clp-connector (fork)"
+          echo "Runner: arc-velox-runners"
+          echo "Repository: jackluo923/velox"
+          echo "=========================================="
