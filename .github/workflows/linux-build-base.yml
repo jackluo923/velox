@@ -45,10 +45,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-venv
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          source $HOME/.local/bin/env
-          sudo uv pip install --system cmake==3.28.3
-          source scripts/setup-ubuntu.sh && install_apt_deps
+          source scripts/setup-ubuntu.sh && install_velox_deps
 
       - name: Clear CCache Statistics
         run: |
