@@ -18,6 +18,7 @@ on:
   push:
     branches:
       - presto-0.293-clp-connector
+      - test-arc-linux-build
     paths:
       - velox/**
       - '!velox/docs/**'
