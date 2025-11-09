@@ -44,7 +44,10 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-venv cmake
+          sudo apt-get install -y python3-venv
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          source $HOME/.cargo/env
+          uv pip install --system cmake==3.28.3
           source scripts/setup-ubuntu.sh && install_apt_deps
 
       - name: Clear CCache Statistics
