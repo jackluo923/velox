@@ -53,12 +53,6 @@ jobs:
           sudo apt-get install -y python3-venv
           scripts/setup-ubuntu.sh
 
-      - name: Verify cmake
-        run: |
-          which cmake || echo "cmake not in PATH"
-          find /usr -name cmake -type f 2>/dev/null | head -5
-          echo "PATH: $PATH"
-
       - name: Clear CCache Statistics
         run: |
           ccache -sz
