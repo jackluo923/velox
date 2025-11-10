@@ -44,19 +44,12 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-venv
+          sudo apt-get install -y python3-venv cmake
           source scripts/setup-ubuntu.sh && install_apt_deps
-          echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Clear CCache Statistics
         run: |
           ccache -sz
-
-      - name: Verify cmake installation
-        run: |
-          which cmake || echo "cmake not found in PATH"
-          ls -la /usr/local/bin/cmake || echo "/usr/local/bin/cmake not found"
-          echo "Current PATH: $PATH"
 
       - name: Build Artifact
         env:
