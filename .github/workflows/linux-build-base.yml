@@ -46,10 +46,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-venv
           source scripts/setup-ubuntu.sh && install_apt_deps
+          echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Clear CCache Statistics
         run: |
           ccache -sz
+
+      - name: Verify cmake installation
+        run: |
+          which cmake || echo "cmake not found in PATH"
+          ls -la /usr/local/bin/cmake || echo "/usr/local/bin/cmake not found"
+          echo "Current PATH: $PATH"
 
       - name: Build Artifact
         env:
@@ -57,7 +64,6 @@ jobs:
           ICU_SOURCE: SYSTEM
           MAKEFLAGS: MAX_HIGH_MEM_JOBS=4 MAX_LINK_JOBS=3
         run: |
-          export PATH="/usr/local/bin:$PATH"
           if [[ "${USE_CLANG}" = "true" ]]; then export CC=/usr/bin/clang-15; export CXX=/usr/bin/clang++-15; fi
           make release
 
