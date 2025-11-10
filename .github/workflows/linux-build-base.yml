@@ -41,12 +41,17 @@ jobs:
           path: velox
           persist-credentials: false
 
+      - name: Install cmake
+        run: |
+          wget https://github.com/Kitware/CMake/releases/download/v3.28.3/cmake-3.28.3-linux-x86_64.tar.gz
+          sudo tar -xzf cmake-3.28.3-linux-x86_64.tar.gz -C /usr/local --strip-components=1
+          rm cmake-3.28.3-linux-x86_64.tar.gz
+
       - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-venv
           scripts/setup-ubuntu.sh
-          echo "/usr/local/bin" >> $GITHUB_PATH
 
       - name: Verify cmake
         run: |
