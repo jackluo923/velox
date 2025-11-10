@@ -48,7 +48,9 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           source $HOME/.local/bin/env
           sudo uv pip install --system cmake==3.28.3
-          source scripts/setup-ubuntu.sh && install_apt_deps
+          source scripts/setup-ubuntu.sh
+          install_apt_deps
+          install_boost
 
       - name: Clear CCache Statistics
         run: |
@@ -57,6 +59,7 @@ jobs:
       - name: Build Artifact
         env:
           VELOX_DEPENDENCY_SOURCE: BUNDLED
+          Boost_SOURCE: SYSTEM
           ICU_SOURCE: SYSTEM
           MAKEFLAGS: MAX_HIGH_MEM_JOBS=4 MAX_LINK_JOBS=3
         run: |
